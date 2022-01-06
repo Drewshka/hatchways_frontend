@@ -1,28 +1,29 @@
 import React from "react";
-import './App.css';
-import axios from 'axios';
+import "./App.scss";
+import axios from "axios";
 class App extends React.Component {
-        state = {
-            students: [],
-            DataisLoaded: false
-        };
-   
-        componentDidMount() {
-          axios.get("https://api.hatchways.io/assessment/students").then((response) => {
-            console.log("Students: ", response);
-            this.setState({ students: response.data.students });
-          });
-        }
+  state = {
+    students: [],
+    DataisLoaded: false,
+  };
 
-    render() { 
-      console.log(this.state.students);
-  
-   return (
-    <div className="app">
-        <h2>Students</h2>
-        <article>
+  componentDidMount() {
+    axios
+      .get("https://api.hatchways.io/assessment/students")
+      .then((response) => {
+        console.log("Students: ", response);
+        this.setState({ students: response.data.students });
+      });
+  }
+
+  render() {
+    console.log(this.state.students);
+
+    return (
+      <div className="app">
+        <h2 className="app_header">Students</h2>
+        <section className="app_container">
           {this.state.students.map((student) => {
-
             function findAverage(array) {
               let sum = 0;
               for (let i = 0; i < array.length; i++) {
@@ -31,25 +32,30 @@ class App extends React.Component {
               let average = sum / array.length;
               return average;
             }
-            
+
             const averageGrade = findAverage(student.grades);
 
             return (
-              <div key={student.id}>
-              <img src={student.pic} alt="avatar" />
-              <h3>{student.firstName} {student.lastName}</h3>
-              <p>Email: {student.email}</p>
-              <p>Company: {student.company}</p>
-              <p>Skill: {student.skill}</p>
-              <p>Average: {averageGrade}</p>
-                                                        
-            </div>
-            )
+              <div className="app_container-card" key={student.id}>
+                <article id="first_half">
+                  <img src={student.pic} alt="avatar" className="app_container-card-avatar" />
+                </article>
+                <article id="second_half">
+                  <h3 className="app_container-card-header">
+                    {student.firstName} {student.lastName}
+                  </h3>
+                  <p className="app_container-card-email">Email: {student.email}</p>
+                  <p className="app_container-card-company">Company: {student.company}</p>
+                  <p className="app_container-card-skill">Skill: {student.skill}</p>
+                  <p className="app_container-card-avg">Average: {averageGrade}</p>
+                </article>
+              </div>
+            );
           })}
-        </article>
+        </section>
       </div>
     );
   }
 }
-   
+
 export default App;
