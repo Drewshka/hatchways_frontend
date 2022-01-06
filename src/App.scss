@@ -10,8 +10,14 @@
 //   }
 // }
 
+#first_half {
+  margin-right: 2rem;
+}
+
 .app_container-card {
-  @include flex(center, center, row);
+  padding: 1rem 2rem;
+  @include flex(flex-start, center, row);
+  border-bottom: 1px solid black;
 
   &-avatar {
     height: 8rem;
@@ -23,10 +29,14 @@
     @include font("Raleway Bold", 700, 40px, 18px, black);
   }
 
-  &-email,
-  &-company,
-  &-skill,
-  &-avg {
-    @include font("Raleway Regular", 400, 16px, 16px, black);
+  &-para {
+    margin-left: 1rem;
+
+    &-email,
+    &-company,
+    &-skill,
+    &-avg {
+      @include font("Raleway Regular", 400, 16px, 16px, black);
+    }
   }
 }

@@ -21,7 +21,6 @@ class App extends React.Component {
 
     return (
       <div className="app">
-        <h2 className="app_header">Students</h2>
         <section className="app_container">
           {this.state.students.map((student) => {
             function findAverage(array) {
@@ -44,10 +43,12 @@ class App extends React.Component {
                   <h3 className="app_container-card-header">
                     {student.firstName} {student.lastName}
                   </h3>
-                  <p className="app_container-card-email">Email: {student.email}</p>
-                  <p className="app_container-card-company">Company: {student.company}</p>
-                  <p className="app_container-card-skill">Skill: {student.skill}</p>
-                  <p className="app_container-card-avg">Average: {averageGrade}</p>
+                  <div className="app_container-card-para">
+                    <p className="app_container-card-email">Email: {student.email}</p>
+                    <p className="app_container-card-company">Company: {student.company}</p>
+                    <p className="app_container-card-skill">Skill: {student.skill}</p>
+                    <p className="app_container-card-avg">Average: {averageGrade}</p>
+                  </div>
                 </article>
               </div>
             );
