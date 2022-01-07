@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.scss";
 import axios from "axios";
-import StudentFilter from './components/StudentFilter/StudentFilter';
+import StudentFilter from "./components/StudentFilter/StudentFilter";
 class App extends React.Component {
   state = {
     students: [],
-    filteredSearch: '',
+    filteredSearch: "",
     DataisLoaded: false,
   };
 
@@ -20,35 +20,32 @@ class App extends React.Component {
 
   handleSearch = (e) => {
     this.setState({
-    filteredSearch: e.target.value
-      })
-    }
+      filteredSearch: e.target.value,
+    });
+  };
 
-    filteredStudents = () => {
-      return this.state.students.filter(student => {
-      return `${student.firstName} ${student.lastName}`.toLowerCase().includes(this.state.filteredSearch.toLowerCase())
-      })
-    }
-
-
-    //* filter functions for sorting content
-    //  nameFilterFunction = str => {
-    //   let newNameFilter = [];
-    //   studentData.map(student => {
-    //     const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
-    //     if (fullName.includes(str)) {
-    //       newNameFilter.push(student);
-    //     }
-    //   });
+  //* filter functions for sorting content
+  filteredStudents = () => {
+    return this.state.students.filter((student) => {
+      return `${student.firstName} ${student.lastName}`
+        .toLowerCase()
+        .includes(this.state.filteredSearch.toLowerCase());
+    });
+  };
 
   render() {
-    console.log(this.state.students);
+    // console.log(this.state.students);
 
     return (
       <div className="app">
         <section className="app_container">
-        <input className="app-input" label='Filter Students: ' placeholder='Search by name' onChange={this.handleSearch} />
-        <StudentFilter students={this.filteredStudents()} />
+          <input
+            className="app_input"
+            label="Filter Students: "
+            placeholder="Search by name"
+            onChange={this.handleSearch}
+          />
+          <StudentFilter students={this.filteredStudents()} />
 
           {/* {this.state.students.map((student) => {
             function findAverage(array) {
