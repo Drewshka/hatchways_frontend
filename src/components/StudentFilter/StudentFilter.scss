@@ -1,34 +1,38 @@
-@use "./styles/partials/variables" as *;
-@use "./styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
 
 #first_half {
   margin-right: 2rem;
 }
 
-.app_container-card {
-  width: 100%;
-  padding: 1rem 2rem;
-  @include flex(flex-start, center, row);
-  border-bottom: 1px solid black;
+// .app_container-card {
+//   .students {
+//     .students_container-card {
+//       width: 100%;
+//       padding: 1rem 2rem;
+//       @include flex(flex-start, center, row);
+//       //   border-bottom: 1px solid black;
 
-  &-avatar {
-    height: 8rem;
-    border: 1px solid black;
-    border-radius: 70px;
-  }
+//       &-avatar {
+//         height: 8rem;
+//         border: 1px solid black;
+//         border-radius: 70px;
+//       }
 
-  &-header {
-    @include font("Raleway Bold", 700, 40px, 18px, black);
-  }
+//       &-header {
+//         @include font("Raleway Bold", 700, 40px, 18px, black);
+//       }
 
-  &-para {
-    margin-left: 1rem;
+//       &-para {
+//         margin-left: 1rem;
 
-    &-email,
-    &-company,
-    &-skill,
-    &-avg {
-      @include font("Raleway Regular", 400, 16px, 16px, black);
-    }
-  }
-}
+//         &-email,
+//         &-company,
+//         &-skill,
+//         &-avg {
+//           @include font("Raleway Regular", 400, 16px, 16px, black);
+//         }
+//       }
+//     }
+//   }
+// }

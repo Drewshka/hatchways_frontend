@@ -23,24 +23,33 @@
   @include flex(flex-start, center, row);
   border-bottom: 1px solid black;
 
-  &-avatar {
-    height: 8rem;
-    border: 1px solid black;
-    border-radius: 70px;
-  }
+  .students {
+    .students_container-card {
+      width: 100%;
+      padding: 1rem 2rem;
+      @include flex(flex-start, center, row);
+      //   border-bottom: 1px solid black;
 
-  &-header {
-    @include font("Raleway Bold", 700, 40px, 18px, black);
-  }
+      &-avatar {
+        height: 8rem;
+        border: 1px solid black;
+        border-radius: 70px;
+      }
 
-  &-para {
-    margin-left: 1rem;
+      &-header {
+        @include font("Raleway Bold", 700, 40px, 18px, black);
+      }
 
-    &-email,
-    &-company,
-    &-skill,
-    &-avg {
-      @include font("Raleway Regular", 400, 16px, 16px, black);
+      &-para {
+        margin-left: 1rem;
+
+        &-email,
+        &-company,
+        &-skill,
+        &-avg {
+          @include font("Raleway Regular", 400, 16px, 16px, black);
+        }
+      }
     }
   }
 }
