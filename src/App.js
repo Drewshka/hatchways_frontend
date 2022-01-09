@@ -2,9 +2,10 @@ import React from "react";
 import "./App.scss";
 import axios from "axios";
 import StudentFilter from "./components/StudentFilter/StudentFilter";
+// import SearchFilter from "./components/SearchFilter/SearchFilter";
 class App extends React.Component {
   state = {
-    // nameFilter: [],
+    studentTags: [],
     students: [],
     filteredSearch: "",
     DataisLoaded: false,
@@ -15,7 +16,10 @@ class App extends React.Component {
       .get("https://api.hatchways.io/assessment/students")
       .then((response) => {
         console.log("Students: ", response);
-        this.setState({ students: response.data.students });
+        this.setState({
+          students: response.data.students,
+          studentSuggestion: response.data.students,
+        });
       });
   }
 
@@ -34,59 +38,35 @@ class App extends React.Component {
     });
   };
 
-  // filteredStudents = () => {
-  //   let names = this.state.students.filter((student) => {
-  //     return `${student.firstName} ${student.lastName}`
-  //       .toLowerCase()
-  //       .includes(this.state.filteredSearch.toLowerCase());
-  //   });
-  //   this.setState({
-  //     nameFilter: names,
-  //   });
-  // };
-
-  // nameFilterFunction = () => {
-  //   let newNameFilter = this.state.students.map((student) => {
-  //     return `${student.firstName} ${student.lastName}`
-  //       .toLowerCase()
-  //       .includes(this.state.filteredSearch.toLowerCase());
-  //   });
-  //   this.setState({
-  //     nameFilter: newNameFilter,
-  //   });
-  // };
-
-  // nameFilterFunction = str => {
-  //   let newNameFilter = [];
-  //   this.state.students.map(student => {
-  //     const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
-  //     if (fullName.includes(str)) {
-  //       newNameFilter.push(student);
-  //     }
-  //   });
-  //   let contentFilter = [];
-  //   tagFilter.map(student => {
-  //     const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
-  //     if (fullName.includes(str)) {
-  //       contentFilter.push(student);
-  //     }
-  //   });
-  //   setFilterContent(contentFilter);
-  //   setNameFilter(newNameFilter);
-  // };
+  addTag = (str, index) => {
+    const tagForStudents = this.state.students;
+    tagForStudents[index].tags.push(str);
+    // setStudentData(tagForStudents);
+    this.setState({
+      studentTags: tagForStudents,
+    });
+  };
 
   render() {
     console.log(this.state.students);
-    console.log(this.state.nameFilter);
     console.log(this.state.filteredSearch);
+    console.log(this.filteredStudents());
+    // console.log(this.state.studentSuggestion);
 
     return (
       <div className="app">
         <section className="app_container">
+          {/* <SearchFilter filterFunction={this.filteredStudents} type={`name`} /> */}
           <input
             className="app_input"
             label="Filter Students: "
             placeholder="Search by name"
+            onChange={this.handleSearch}
+          />
+          <input
+            className="app_input"
+            label="Filter Tags: "
+            placeholder="Search by tag"
             onChange={this.handleSearch}
           />
 
@@ -108,7 +88,6 @@ class App extends React.Component {
             return (
               <div className="app_container-card" key={student.id}>
                 <StudentFilter
-                  // students={this.filteredStudents()}
                   key={index.toString()}
                   index={index}
                   img={student.pic}
@@ -120,6 +99,7 @@ class App extends React.Component {
                   grades={student.grades}
                   averageGrade={averageGrade}
                   tags={student.tags}
+                  addTag={this.addTag}
                 />
               </div>
             );
