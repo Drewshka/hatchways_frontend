@@ -4,8 +4,8 @@ import axios from "axios";
 import StudentFilter from "./components/StudentFilter/StudentFilter";
 class App extends React.Component {
   state = {
+    // nameFilter: [],
     students: [],
-    nameFilter: [],
     filteredSearch: "",
     DataisLoaded: false,
   };
@@ -26,24 +26,24 @@ class App extends React.Component {
   };
 
   //* filter functions for sorting content
+  filteredStudents = () => {
+    return this.state.students.filter((student) => {
+      return `${student.firstName} ${student.lastName}`
+        .toLowerCase()
+        .includes(this.state.filteredSearch.toLowerCase());
+    });
+  };
+
   // filteredStudents = () => {
-  //   return this.state.students.filter((student) => {
+  //   let names = this.state.students.filter((student) => {
   //     return `${student.firstName} ${student.lastName}`
   //       .toLowerCase()
   //       .includes(this.state.filteredSearch.toLowerCase());
   //   });
+  //   this.setState({
+  //     nameFilter: names,
+  //   });
   // };
-
-  filteredStudents = () => {
-    let names = this.state.students.filter((student) => {
-      `${student.firstName} ${student.lastName}`
-        .toLowerCase()
-        .includes(this.state.filteredSearch.toLowerCase());
-    });
-    this.setState({
-      nameFilter: names,
-    });
-  };
 
   // nameFilterFunction = () => {
   //   let newNameFilter = this.state.students.map((student) => {
@@ -92,7 +92,8 @@ class App extends React.Component {
 
           {/* <StudentFilter students={this.filteredStudents()} /> */}
 
-          {this.state.students.map((student, index) => {
+          {/* {this.state.students.map((student, index) => { */}
+          {this.filteredStudents().map((student, index) => {
             function findAverage(array) {
               let sum = 0;
               for (let i = 0; i < array.length; i++) {
