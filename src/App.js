@@ -5,8 +5,10 @@ import StudentFilter from "./components/StudentFilter/StudentFilter";
 // import SearchFilter from "./components/SearchFilter/SearchFilter";
 class App extends React.Component {
   state = {
-    studentTags: [],
+    // studentTags: [],
     students: [],
+    tagsInput: "",
+    tags: [],
     filteredSearch: "",
     DataisLoaded: false,
   };
@@ -38,21 +40,85 @@ class App extends React.Component {
     });
   };
 
-  addTag = (str, index) => {
-    const tagForStudents = this.state.students;
-    tagForStudents[index].tags.push(str);
-    // setStudentData(tagForStudents);
+  //   filterByTag(arr) {
+  //     return arr.filter((student) => {
+  //         let isTagged = false;
+  //         let lowerCasedTag;
+  //         student.tags.forEach((tag) => {
+  //             lowerCasedTag = tag.toLowerCase().trim();
+  //             if (lowerCasedTag.includes(tagSearchInput)) {
+  //                 isTagged = true;
+  //             }
+  //         });
+  //         return isTagged;
+  //     });
+  // }
+
+  updateTagValue = (value) => {
+    if (value === " ") {
+      return;
+    }
     this.setState({
-      studentTags: tagForStudents,
+      tagsInput: value,
     });
   };
 
+  addTag = (tag) => {
+    tag = tag.trim();
+    if (!(this.state.tags.indexOf(tag) > -1)) {
+      let tags = this.state.tags.concat([tag]);
+      this.updateTags(tags);
+    }
+    this.updateTagValue("");
+  };
+
+  // addTag = (student, newTag) => {
+  //   student.tags.push(newTag);
+
+  //   const indexOfStudent = this.state.students.findIndex(
+  //     (s) => s.id === student.id
+  //   );
+  //   let studentDataWithChanges = [
+  //     ...this.state.students.slice(0, indexOfStudent),
+  //     student,
+  //     ...this.state.students.slice(indexOfStudent + 1),
+  //   ];
+  //   // setStudentData(studentDataWithChanges);
+  //   this.setState({
+  //     tags: studentDataWithChanges,
+  //   });
+  // };
+
+  updateTags = (tags) => {
+    this.setState({
+      tags,
+    });
+  };
+
+  // saveInput = (e) => {
+  //   this.setState({ tagsInput: e.target.value });
+  // };
+
+  // addNewItem = () => {
+  //   this.setState((prevState) => ({
+  //     students: [...prevState.students, prevState.tagsInput],
+  //   }));
+  // };
+
+  // addTag = (str, index) => {
+  //   const tagForStudents = [...this.state.students];
+  //   tagForStudents[index].tags.push(str);
+  //   this.setState({
+  //     students: tagForStudents,
+  //   });
+  // };
+
   render() {
-    console.log(this.state.students);
+    console.log(...this.state.students);
     console.log(this.state.filteredSearch);
     console.log(this.filteredStudents());
-    // console.log(this.state.studentSuggestion);
 
+    console.log(this.state.tags);
     return (
       <div className="app">
         <section className="app_container">
@@ -67,8 +133,10 @@ class App extends React.Component {
             className="app_input"
             label="Filter Tags: "
             placeholder="Search by tag"
-            onChange={this.handleSearch}
+            onChange={this.updateTagValue}
           />
+          {/* <input type="text" onChange={this.saveInput} />
+          <button onClick={this.addNewItem}> Add Item </button> */}
 
           {/* <StudentFilter students={this.filteredStudents()} /> */}
 
@@ -98,8 +166,10 @@ class App extends React.Component {
                   skill={student.skill}
                   grades={student.grades}
                   averageGrade={averageGrade}
-                  tags={student.tags}
                   addTag={this.addTag}
+                  tagsInput={this.state.tagsInput}
+                  updateTagValue={this.updateTagValue}
+                  tags={this.state.tags}
                 />
               </div>
             );
