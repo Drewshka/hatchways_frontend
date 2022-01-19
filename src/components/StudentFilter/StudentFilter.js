@@ -2,32 +2,14 @@
 import React, { Component } from "react";
 import OnEvent from "react-onevent";
 
-// import OpenIcon from "../Icons/OpenIcon";
-// import CloseIcon from "../Icons/CloseIcon";
+import OpenIcon from "../Icons/OpenIcon";
+import CloseIcon from "../Icons/CloseIcon";
 // import Tag from "../Tag/Tag";
 // import TagInput from "../TagInput/TagInput";
 // import TagForm from "../TagForm/TagForm";
 
-// const StudentFilter = ({
-//   index,
-//   img,
-//   firstName,
-//   lastName,
-//   email,
-//   company,
-//   skill,
-//   averageGrade,
-//   grades,
-//   tags,
-//   addTag,
-//   tagsInput,
-//   updateTagValue,
-// }) => {
-//   // console.log(students);
-//   const [showGrades, setShowGrades] = useState(false);
-
 //   const selectedTags = (tags) => console.log(tags);
-
+//   const [showGrades, setShowGrades] = useState(false);
 export default class StudentFilter extends Component {
   constructor(props) {
     super(props);
@@ -35,8 +17,8 @@ export default class StudentFilter extends Component {
       on: false,
       showPlusButton: true,
       showMinusButton: false,
-      //   tagsInput: "",
-      //   tags: [],
+      tagsInput: "",
+      tags: [],
     };
   }
 
@@ -48,29 +30,42 @@ export default class StudentFilter extends Component {
     });
   };
 
-  //   updateTagValue = (value) => {
-  //     if (value === " ") {
-  //       return;
-  //     }
-  //     this.setState({
-  //       tagsInput: value,
-  //     });
-  //   };
+  updateTagValue = (value) => {
+    if (value === " ") {
+      return;
+    }
+    this.setState({
+      tagsInput: value,
+    });
+  };
 
-  //   addTag = (tag) => {
-  //     tag = tag.trim();
-  //     if (!(this.state.tags.indexOf(tag) > -1)) {
-  //       let tags = this.state.tags.concat([tag]);
-  //       this.updateTags(tags);
-  //     }
-  //     this.updateTagValue("");
-  //   };
+  addTag = (tag) => {
+    let newTags = [...this.state.tags, tag];
 
-  //   updateTags = (tags) => {
-  //     this.setState({
-  //       tags,
-  //     });
-  //   };
+    // newTags = newTags.join("  ||  ");
+    newTags = newTags.join("  ,  ");
+
+    this.setState({
+      tags: newTags,
+    });
+
+    //send tags to parent component
+    this.props.getTags(this.props.id, newTags);
+
+    //check if tag already exists
+
+    if (!(this.state.tags.indexOf(tag) > -1)) {
+      let tags = this.state.tags.concat([tag]);
+      this.updateTags(tags);
+    }
+    this.updateTagValue("");
+  };
+
+  updateTags = (tags) => {
+    this.setState({
+      tags,
+    });
+  };
 
   render() {
     // console.log(this.props.tags);
@@ -108,30 +103,26 @@ export default class StudentFilter extends Component {
                     {this.props.grades.map(function (name, index) {
                       return (
                         <li key={index}>
-                          Test {index}: {name}%
+                          Test {index + 1}: {name}%
                         </li>
                       );
                     })}
                   </ul>
 
-                  {this.props.tags &&
-                    this.props.tags.map((x) => (
-                      <ul className="tags">
-                        <li>{x}</li>
-                      </ul>
-                    ))}
+                  <ul>
+                    {this.props.tags &&
+                      this.props.tags.map((x) => <li className="tags">{x}</li>)}
+                  </ul>
 
-                  <OnEvent space={(e) => this.props.addTag(e.target.value)}>
-                    <form>
-                      <input
-                        value={this.props.tagsInput}
-                        onChange={(e) => {
-                          this.props.updateTagValue(e.target.value);
-                        }}
-                        type="text"
-                        placeholder="Enter tag and hit space"
-                      />
-                    </form>
+                  <OnEvent enter={(e) => this.addTag(e.target.value)}>
+                    <input
+                      value={this.state.tagsInput}
+                      onChange={(e) => {
+                        this.updateTagValue(e.target.value);
+                      }}
+                      type="text"
+                      placeholder="Enter tag..."
+                    />
                   </OnEvent>
                 </div>
               )}
@@ -184,67 +175,4 @@ export default class StudentFilter extends Component {
       </div>
     );
   }
-  //   return (
-  //     <div className="students">
-  //       <div className="students_container-card" key={index}>
-  //         <article id="first_half">
-  //           <img
-  //             src={img}
-  //             alt="avatar"
-  //             className="students_container-card-avatar"
-  //           />
-  //         </article>
-  //         <article id="second_half">
-  //           <h3 className="students_container-card-header">
-  //             {firstName} {lastName}
-  //           </h3>
-  //           <div className="students_container-card-para">
-  //             <p className="students_container-card-para-email">Email: {email}</p>
-  //             <p className="students_container-card-para-company">
-  //               Company: {company}
-  //             </p>
-  //             <p className="students_container-card-para-skill">Skill: {skill}</p>
-  //             <p className="students_container-card-para-avg">
-  //               Average: {averageGrade}
-  //             </p>
-  //             {showGrades && (
-  //               <div className="students_container-card-para-grades">
-  //                 {grades.map((grade, index) => {
-  //                   return (
-  //                     <div key={index.toString()}>
-  //                       {`test ${index + 1}:\xa0\xa0\xa0\xa0\xa0\xa0${grade}%`}
-  //                     </div>
-  //                   );
-  //                 })}
-  //                 {tags &&
-  //                   tags.map((x) => (
-  //                     <ul className="tags">
-  //                       <li>{x}</li>
-  //                     </ul>
-  //                   ))}
-  //                 <TagForm selectedTags={selectedTags} />
-  //               </div>
-  //             )}
-
-  //             <TagForm selectedTags={selectedTags} />
-
-  //             {showGrades ? (
-  //               <CloseIcon
-  //                 className="close"
-  //                 setShowGrades={setShowGrades}
-  //                 showGrades={showGrades}
-  //               />
-  //             ) : (
-  //               <OpenIcon
-  //                 className="open"
-  //                 setShowGrades={setShowGrades}
-  //                 showGrades={showGrades}
-  //               />
-  //             )}
-  //           </div>
-  //         </article>
-  //       </div>
-  //     </div>
-  //   );
 }
-// export default StudentFilter;

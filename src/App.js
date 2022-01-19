@@ -4,14 +4,31 @@ import axios from "axios";
 import StudentFilter from "./components/StudentFilter/StudentFilter";
 // import SearchFilter from "./components/SearchFilter/SearchFilter";
 class App extends React.Component {
-  state = {
-    // studentTags: [],
-    students: [],
-    tagsInput: "",
-    tags: [],
-    filteredSearch: "",
-    DataisLoaded: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      students: [],
+      key_word: "",
+      tag_key_word: "",
+      studentsWithTags: [],
+      showStudentNames: true,
+      showStudentTags: false,
+    };
+  }
+  // state = {
+  //   // students: [],
+  //   // studentsWithTags: [],
+  //   // filteredSearch: "",
+  //   // filteredTag: "",
+  //   // showStudentNames: true,
+  //   // showStudentTags: false,
+  //   students: [],
+  //   key_word: "",
+  //   tag_key_word: "",
+  //   studentsWithTags: [],
+  //   showStudentNames: true,
+  //   showStudentTags: false
+  // };
 
   componentDidMount() {
     axios
@@ -20,128 +37,236 @@ class App extends React.Component {
         console.log("Students: ", response);
         this.setState({
           students: response.data.students,
-          studentSuggestion: response.data.students,
+          // studentSuggestion: response.data.students,
         });
       });
   }
 
-  handleSearch = (e) => {
-    this.setState({
-      filteredSearch: e.target.value,
-    });
-  };
-
-  //* filter functions for sorting content
-  filteredStudents = () => {
-    return this.state.students.filter((student) => {
-      return `${student.firstName} ${student.lastName}`
-        .toLowerCase()
-        .includes(this.state.filteredSearch.toLowerCase());
-    });
-  };
-
-  //   filterByTag(arr) {
-  //     return arr.filter((student) => {
-  //         let isTagged = false;
-  //         let lowerCasedTag;
-  //         student.tags.forEach((tag) => {
-  //             lowerCasedTag = tag.toLowerCase().trim();
-  //             if (lowerCasedTag.includes(tagSearchInput)) {
-  //                 isTagged = true;
-  //             }
-  //         });
-  //         return isTagged;
-  //     });
-  // }
-
-  updateTagValue = (value) => {
-    if (value === " ") {
-      return;
-    }
-    this.setState({
-      tagsInput: value,
-    });
-  };
-
-  addTag = (tag) => {
-    tag = tag.trim();
-    if (!(this.state.tags.indexOf(tag) > -1)) {
-      let tags = this.state.tags.concat([tag]);
-      this.updateTags(tags);
-    }
-    this.updateTagValue("");
-  };
-
-  // addTag = (student, newTag) => {
-  //   student.tags.push(newTag);
-
-  //   const indexOfStudent = this.state.students.findIndex(
-  //     (s) => s.id === student.id
-  //   );
-  //   let studentDataWithChanges = [
-  //     ...this.state.students.slice(0, indexOfStudent),
-  //     student,
-  //     ...this.state.students.slice(indexOfStudent + 1),
-  //   ];
-  //   // setStudentData(studentDataWithChanges);
+  // handleSearch = (e) => {
   //   this.setState({
-  //     tags: studentDataWithChanges,
+  //     filteredSearch: e.target.value,
+  //     showStudentNames: true,
+  //     showStudentTags: false,
   //   });
   // };
 
-  updateTags = (tags) => {
+  // handleTagSearch = (e) => {
+  //   this.setState({
+  //     filteredTag: e.target.value,
+  //     showStudentNames: false,
+  //     showStudentTags: true,
+  //   });
+  // };
+
+  // //* filter functions for sorting content
+  // filteredStudents = () => {
+  //   return this.state.students.filter((student) => {
+  //     return `${student.firstName} ${student.lastName}`
+  //       .toLowerCase()
+  //       .includes(this.state.filteredSearch.toLowerCase());
+  //   });
+  // };
+
+  // // searchStudentByTag = tag_keyWord => {
+  // filteredTag = (tagWord) => {
+  //   return (x) => {
+  //     for (let i = 0; i < x.tags.length; i++) {
+  //       return x.tags[i].includes(tagWord) || !tagWord;
+  //     }
+  //   };
+  // };
+
+  // handleTags = (id, tags) => {
+  //   //call function that retrieves student by ID and add tags
+  //   this.getStudent(id, tags);
+  // };
+
+  // getStudent = (id, tags) => {
+  //   //get student with the given ID
+  //   let student = this.state.students.filter((student) => student.id === id);
+
+  //   //push tag onto array
+  //   let tagArray = [];
+  //   tagArray.push(tags);
+
+  //   //create tag property and add tag
+  //   student[0].tags = tagArray;
+  //   let newStudentWithTags = [...this.state.studentsWithTags, student[0]];
+
+  //   //remove duplicates from Array
+  //   let uniqueStudents = Array.from(new Set(newStudentWithTags));
+
+  //   this.setState({
+  //     studentsWithTags: uniqueStudents,
+  //   });
+  // };
+
+  searchByNameHandler = (e) => {
     this.setState({
-      tags,
+      key_word: e.target.value,
+      showStudentNames: true,
+      showStudentTags: false,
     });
   };
 
-  // saveInput = (e) => {
-  //   this.setState({ tagsInput: e.target.value });
-  // };
+  searchByTagHandler = (e) => {
+    this.setState({
+      tag_key_word: e.target.value,
+      showStudentNames: false,
+      showStudentTags: true,
+    });
+  };
 
-  // addNewItem = () => {
-  //   this.setState((prevState) => ({
-  //     students: [...prevState.students, prevState.tagsInput],
-  //   }));
-  // };
+  searchStudentByName = (keyWord) => {
+    return (x) => {
+      return (
+        x.firstName.toLowerCase().includes(keyWord.toLowerCase()) ||
+        x.lastName.toLowerCase().includes(keyWord.toLowerCase()) ||
+        !keyWord
+      );
+    };
+  };
 
-  // addTag = (str, index) => {
-  //   const tagForStudents = [...this.state.students];
-  //   tagForStudents[index].tags.push(str);
-  //   this.setState({
-  //     students: tagForStudents,
-  //   });
-  // };
+  searchStudentByTag = (tag_keyWord) => {
+    return (x) => {
+      for (let i = 0; i < x.tags.length; i++) {
+        return x.tags[i].includes(tag_keyWord) || !tag_keyWord;
+      }
+    };
+  };
+
+  handleTags = (id, tags) => {
+    //call function that retrieves student by ID and add tags
+    this.retrieveStudent(id, tags);
+  };
+
+  retrieveStudent = (id, tags) => {
+    //get student with the given ID
+    let student = this.state.students.filter((student) => student.id === id);
+
+    //push tag onto array
+    let tagArray = [];
+    tagArray.push(tags);
+
+    //create tag property and add tag
+    student[0].tags = tagArray;
+    let newStudentWithTags = [...this.state.studentsWithTags, student[0]];
+
+    //remove duplicates from Array
+    let uniqueStudents = Array.from(new Set(newStudentWithTags));
+
+    this.setState({
+      studentsWithTags: uniqueStudents,
+    });
+  };
 
   render() {
     console.log(...this.state.students);
-    console.log(this.state.filteredSearch);
-    console.log(this.filteredStudents());
+    // console.log(this.state.filteredSearch);
+    // console.log(this.filteredStudents());
+    // console.log(this.state.tags);
 
-    console.log(this.state.tags);
     return (
       <div className="app">
         <section className="app_container">
           {/* <SearchFilter filterFunction={this.filteredStudents} type={`name`} /> */}
-          <input
+          {/* <input
             className="app_input"
             label="Filter Students: "
             placeholder="Search by name"
             onChange={this.handleSearch}
           />
           <input
+            type="text"
+            onChange={this.handleTagSearch}
+            placeholder="Search by tags"
+            value={this.state.filteredTag}
+          /> */}
+          <input
+            type="text"
+            onChange={this.searchByNameHandler}
+            placeholder="Search by name..."
+            value={this.state.key_word}
             className="app_input"
-            label="Filter Tags: "
-            placeholder="Search by tag"
-            onChange={this.updateTagValue}
           />
-          {/* <input type="text" onChange={this.saveInput} />
-          <button onClick={this.addNewItem}> Add Item </button> */}
+          <input
+            type="text"
+            onChange={this.searchByTagHandler}
+            placeholder="Search by tags..."
+            value={this.state.tag_key_word}
+            className="app_input"
+          />
 
-          {/* <StudentFilter students={this.filteredStudents()} /> */}
+          {this.state.showStudentNames &&
+            this.state.students
+              .filter(this.searchStudentByName(this.state.key_word))
+              .map((student, i) => {
+                function findAverage(array) {
+                  let sum = 0;
+                  for (let i = 0; i < array.length; i++) {
+                    sum += parseInt(array[i]);
+                  }
+                  let average = sum / array.length;
+                  return average;
+                }
 
-          {/* {this.state.students.map((student, index) => { */}
-          {this.filteredStudents().map((student, index) => {
+                const averageGrade = findAverage(student.grades);
+
+                return (
+                  <div className="app_container-card" key={i}>
+                    <StudentFilter
+                      key={student.id}
+                      id={student.id}
+                      img={student.pic}
+                      firstName={student.firstName}
+                      lastName={student.lastName}
+                      email={student.email}
+                      company={student.company}
+                      skill={student.skill}
+                      grades={student.grades}
+                      averageGrade={averageGrade}
+                      tags={student.tags}
+                      getTags={this.handleTags}
+                    />
+                  </div>
+                );
+              })}
+
+          {this.state.showStudentTags &&
+            this.state.studentsWithTags
+              .filter(this.searchStudentByTag(this.state.tag_key_word))
+              .map((student, i) => {
+                function findAverage(array) {
+                  let sum = 0;
+                  for (let i = 0; i < array.length; i++) {
+                    sum += parseInt(array[i]);
+                  }
+                  let average = sum / array.length;
+                  return average;
+                }
+
+                const averageGrade = findAverage(student.grades);
+                return (
+                  <div className="app_container-card" key={i}>
+                    <StudentFilter
+                      key={student.id}
+                      id={student.id}
+                      img={student.pic}
+                      firstName={student.firstName}
+                      lastName={student.lastName}
+                      email={student.email}
+                      company={student.company}
+                      skill={student.skill}
+                      grades={student.grades}
+                      averageGrade={averageGrade}
+                      tags={student.tags}
+                      getTags={this.handleTags}
+                    />
+                  </div>
+                );
+              })}
+
+          {/* {this.filteredStudents().map((student, index) => {
             function findAverage(array) {
               let sum = 0;
               for (let i = 0; i < array.length; i++) {
@@ -166,14 +291,12 @@ class App extends React.Component {
                   skill={student.skill}
                   grades={student.grades}
                   averageGrade={averageGrade}
-                  addTag={this.addTag}
-                  tagsInput={this.state.tagsInput}
-                  updateTagValue={this.updateTagValue}
-                  tags={this.state.tags}
+                  tags={student.tags}
+                  getTags={this.handleTags}
                 />
               </div>
             );
-          })}
+          })} */}
         </section>
       </div>
     );
