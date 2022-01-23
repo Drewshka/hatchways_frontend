@@ -8,7 +8,7 @@ import "./StudentFilter.scss";
 
 // import OpenIcon from "../Icons/OpenIcon";
 // import CloseIcon from "../Icons/CloseIcon";
-// import Tag from "../Tag/Tag";
+import Tag from "../Tag/Tag";
 // import TagInput from "../TagInput/TagInput";
 // import TagForm from "../TagForm/TagForm";
 
@@ -21,7 +21,7 @@ export default class StudentFilter extends Component {
       on: false,
       showPlusButton: true,
       showMinusButton: false,
-      tagsInput: "",
+      tag: "",
       tags: [],
     };
   }
@@ -49,22 +49,34 @@ export default class StudentFilter extends Component {
       return;
     }
     this.setState({
-      tagsInput: value,
+      tag: value,
     });
   };
 
   addTag = (tag) => {
     let newTags = [...this.state.tags, tag];
 
-    // newTags = newTags.join("  ||  ");
-    newTags = newTags.join("  ,  ");
+    // var perChunk = 1; // items per chunk
 
-    this.setState({
-      tags: newTags,
-    });
+    // let result = newTags.reduce((resultArray, item, index) => {
+    //   const chunkIndex = Math.floor(index / perChunk);
 
-    //send tags to parent component
+    //   if (!resultArray[chunkIndex]) {
+    //     resultArray[chunkIndex] = []; // start a new chunk
+    //   }
+
+    //   resultArray[chunkIndex].push(item);
+
+    //   return resultArray;
+    // }, []);
+
+    // console.log(result);
+
+    // newTags = newTags.join(" , ");
+
+    //*send tags to parent component
     this.props.getTags(this.props.id, newTags);
+    // this.props.getTags(this.props.id, result);
 
     //check if tag already exists
 
@@ -89,7 +101,7 @@ export default class StudentFilter extends Component {
   //     });
   //   };
 
-  //   //On press Enter
+  //   //   //On press Enter
   //   keyPress = (e) => {
   //     if (e.keyCode === 13) {
   //       this.props.handler(this.state.tag, this.props.student.id);
@@ -105,6 +117,12 @@ export default class StudentFilter extends Component {
 
   render() {
     // console.log(this.props.tags);
+    let showAllTags = this.state.tags ? (
+      this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
+    ) : (
+      <div></div>
+    );
+
     return (
       <div className="students">
         <div className="students_container-card" key={this.props.index}>
@@ -124,13 +142,13 @@ export default class StudentFilter extends Component {
                   </h3>
                   <div className="buttons">
                     {this.state.showPlusButton && (
-                      <button onClick={this.toggle}>
+                      <button onClick={this.toggle} className="openButton">
                         <img alt="open" src={Open} />
                       </button>
                     )}
 
                     {this.state.showMinusButton && (
-                      <button onClick={this.toggle}>
+                      <button onClick={this.toggle} className="closeButton">
                         <img alt="close" src={Close} />
                       </button>
                     )}
@@ -153,7 +171,7 @@ export default class StudentFilter extends Component {
               </div>
               {this.state.on && (
                 <div>
-                  <ul>
+                  <ul className="gradesList">
                     {this.props.grades.map(function (name, index) {
                       return (
                         <li key={index}>
@@ -163,18 +181,19 @@ export default class StudentFilter extends Component {
                     })}
                   </ul>
 
-                  <ul>
-                    {this.props.tags &&
+                  <ul className="tagsList">
+                    {/* {this.props.tags &&
                       this.props.tags.map((x, index) => (
                         <li key={index} className="tags">
                           {x}
                         </li>
-                      ))}
+                      ))} */}
+                    {this.state.tags ? <div>{showAllTags}</div> : <div></div>}
                   </ul>
 
                   <OnEvent enter={(e) => this.addTag(e.target.value)}>
                     <input
-                      value={this.state.tagsInput}
+                      value={this.state.tag}
                       onChange={(e) => {
                         this.updateTagValue(e.target.value);
                       }}
@@ -184,19 +203,6 @@ export default class StudentFilter extends Component {
                   </OnEvent>
                 </div>
               )}
-              {/* <div className="buttons">
-                {this.state.showPlusButton && (
-                  <button onClick={this.toggle}>
-                    <img alt="open" src={Open} />
-                  </button>
-                )}
-
-                {this.state.showMinusButton && (
-                  <button onClick={this.toggle}>
-                    <img alt="close" src={Close} />
-                  </button>
-                )}
-              </div> */}
             </div>
           </article>
         </div>

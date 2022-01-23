@@ -23,3 +23,18 @@
   top: 60px;
   right: 20px;
 }
+
+.gradesList,
+.tagsList {
+  list-style-type: none;
+}
+
+.openButton,
+.closeButton {
+  border: none;
+  background-color: white;
+}
+
+.closeButton img {
+  width: 2.5rem;
+}

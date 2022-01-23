@@ -52,6 +52,10 @@
           @include font("Raleway Regular", 400, 16px, 16px, black);
         }
       }
+
+      &-grades {
+        list-style-type: none;
+      }
     }
   }
 }

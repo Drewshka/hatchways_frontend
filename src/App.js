@@ -32,18 +32,18 @@ class App extends React.Component {
   //   };
   // }
 
-  //Populate Tags state from Student Component
-  //   handler = (tag, id) => {
-  //     this.setState((prevState) => ({
-  //       tags: [...prevState.tags, { id: id, tag: tag }],
-  //     }));
-  //   };
+  // Populate Tags state from Student Component
+  handler = (tag, id) => {
+    this.setState((prevState) => ({
+      tags: [...prevState.tags, { id: id, tag: tag }],
+    }));
+  };
 
-  //   handleChange = (event) => {
-  //     this.setState({
-  //         [event.target.name]: event.target.value
-  //     });
-  // }
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
 
   componentDidMount() {
     axios
@@ -135,12 +135,12 @@ class App extends React.Component {
     });
   };
 
-  clearInput = () => {
-    this.setState({
-      tag_key_word: "",
-      studentsWithTags: [],
-    });
-  };
+  // clearInput = () => {
+  //   this.setState({
+  //     tag_key_word: "",
+  //     studentsWithTags: [],
+  //   });
+  // };
 
   render() {
     //   let filteredTags = this.state.tags ? (
@@ -152,7 +152,8 @@ class App extends React.Component {
     // )
 
     console.log(...this.state.students);
-    // console.log(this.state.filteredSearch);
+    console.log(this.state.tag_key_word);
+    console.log(...this.state.studentsWithTags);
     // console.log(this.filteredStudents());
     // console.log(this.state.tags);
 
@@ -192,7 +193,7 @@ class App extends React.Component {
               e.preventDefault();
               // addTag(newTag, index);
               // setNewTag("");
-              this.clearInput();
+              // this.clearInput();
             }}>
             <input
               type="text"
