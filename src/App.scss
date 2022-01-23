@@ -28,13 +28,14 @@
     .students_container-card {
       width: 100%;
       padding: 1rem 2rem;
-      @include flex(flex-start, center, row);
+      @include flex(flex-start, flex-start, row);
       //   border-bottom: 1px solid black;
 
       &-avatar {
         height: 8rem;
         border: 1px solid black;
         border-radius: 70px;
+        margin-top: 2rem;
       }
 
       &-header {
