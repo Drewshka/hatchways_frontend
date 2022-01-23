@@ -2,6 +2,7 @@ import React from "react";
 import "./App.scss";
 import axios from "axios";
 import StudentFilter from "./components/StudentFilter/StudentFilter";
+// const ReactTags = require("react-tag-autocomplete");
 // import SearchFilter from "./components/SearchFilter/SearchFilter";
 class App extends React.Component {
   constructor(props) {
@@ -15,20 +16,34 @@ class App extends React.Component {
       showStudentTags: false,
     };
   }
-  // state = {
-  //   // students: [],
-  //   // studentsWithTags: [],
-  //   // filteredSearch: "",
-  //   // filteredTag: "",
-  //   // showStudentNames: true,
-  //   // showStudentTags: false,
-  //   students: [],
-  //   key_word: "",
-  //   tag_key_word: "",
-  //   studentsWithTags: [],
-  //   showStudentNames: true,
-  //   showStudentTags: false
-  // };
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     students: [],
+  //     tags: [],
+  //     key_word: "",
+  //     tag_key_word: "",
+  //     studentsWithTags: [],
+  //     showStudentNames: true,
+  //     showStudentTags: false,
+  //     searchName: "",
+  //     searchTag: "",
+  //   };
+  // }
+
+  //Populate Tags state from Student Component
+  //   handler = (tag, id) => {
+  //     this.setState((prevState) => ({
+  //       tags: [...prevState.tags, { id: id, tag: tag }],
+  //     }));
+  //   };
+
+  //   handleChange = (event) => {
+  //     this.setState({
+  //         [event.target.name]: event.target.value
+  //     });
+  // }
 
   componentDidMount() {
     axios
@@ -42,22 +57,6 @@ class App extends React.Component {
       });
   }
 
-  // handleSearch = (e) => {
-  //   this.setState({
-  //     filteredSearch: e.target.value,
-  //     showStudentNames: true,
-  //     showStudentTags: false,
-  //   });
-  // };
-
-  // handleTagSearch = (e) => {
-  //   this.setState({
-  //     filteredTag: e.target.value,
-  //     showStudentNames: false,
-  //     showStudentTags: true,
-  //   });
-  // };
-
   // //* filter functions for sorting content
   // filteredStudents = () => {
   //   return this.state.students.filter((student) => {
@@ -67,41 +66,8 @@ class App extends React.Component {
   //   });
   // };
 
-  // // searchStudentByTag = tag_keyWord => {
-  // filteredTag = (tagWord) => {
-  //   return (x) => {
-  //     for (let i = 0; i < x.tags.length; i++) {
-  //       return x.tags[i].includes(tagWord) || !tagWord;
-  //     }
-  //   };
-  // };
-
-  // handleTags = (id, tags) => {
-  //   //call function that retrieves student by ID and add tags
-  //   this.getStudent(id, tags);
-  // };
-
-  // getStudent = (id, tags) => {
-  //   //get student with the given ID
-  //   let student = this.state.students.filter((student) => student.id === id);
-
-  //   //push tag onto array
-  //   let tagArray = [];
-  //   tagArray.push(tags);
-
-  //   //create tag property and add tag
-  //   student[0].tags = tagArray;
-  //   let newStudentWithTags = [...this.state.studentsWithTags, student[0]];
-
-  //   //remove duplicates from Array
-  //   let uniqueStudents = Array.from(new Set(newStudentWithTags));
-
-  //   this.setState({
-  //     studentsWithTags: uniqueStudents,
-  //   });
-  // };
-
   searchByNameHandler = (e) => {
+    e.preventDefault();
     this.setState({
       key_word: e.target.value,
       showStudentNames: true,
@@ -110,6 +76,7 @@ class App extends React.Component {
   };
 
   searchByTagHandler = (e) => {
+    e.preventDefault();
     this.setState({
       tag_key_word: e.target.value,
       showStudentNames: false,
@@ -134,6 +101,14 @@ class App extends React.Component {
       }
     };
   };
+
+  // filteredStudents = () => {
+  //   return this.state.students.filter((student) => {
+  //     return `${student.firstName} ${student.lastName}`
+  //       .toLowerCase()
+  //       .includes(this.state.filteredSearch.toLowerCase());
+  //   });
+  // };
 
   handleTags = (id, tags) => {
     //call function that retrieves student by ID and add tags
@@ -160,7 +135,22 @@ class App extends React.Component {
     });
   };
 
+  clearInput = () => {
+    this.setState({
+      tag_key_word: "",
+      studentsWithTags: [],
+    });
+  };
+
   render() {
+    //   let filteredTags = this.state.tags ? (
+    //     this.state.tags.filter(
+    //         tag => tag.tag.startsWith(this.state.searchTag)
+    //     )
+    // ) : (
+    //     <h3>Loading</h3>
+    // )
+
     console.log(...this.state.students);
     // console.log(this.state.filteredSearch);
     // console.log(this.filteredStudents());
@@ -182,20 +172,36 @@ class App extends React.Component {
             placeholder="Search by tags"
             value={this.state.filteredTag}
           /> */}
-          <input
-            type="text"
-            onChange={this.searchByNameHandler}
-            placeholder="Search by name..."
-            value={this.state.key_word}
-            className="app_input"
-          />
-          <input
-            type="text"
-            onChange={this.searchByTagHandler}
-            placeholder="Search by tags..."
-            value={this.state.tag_key_word}
-            className="app_input"
-          />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              // addTag(newTag, index);
+              // setNewTag("");
+            }}>
+            <input
+              type="text"
+              onChange={this.searchByNameHandler}
+              placeholder="Search by name..."
+              value={this.state.key_word}
+              className="app_input"
+            />
+          </form>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              // addTag(newTag, index);
+              // setNewTag("");
+              this.clearInput();
+            }}>
+            <input
+              type="text"
+              className="app_input"
+              placeholder="Search by tags..."
+              onChange={this.searchByTagHandler}
+              value={this.state.tag_key_word}
+            />
+          </form>
 
           {this.state.showStudentNames &&
             this.state.students

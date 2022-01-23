@@ -2,8 +2,12 @@
 import React, { Component } from "react";
 import OnEvent from "react-onevent";
 
-import OpenIcon from "../Icons/OpenIcon";
-import CloseIcon from "../Icons/CloseIcon";
+import Open from "../../assets/icons/open.svg";
+import Close from "../../assets/icons/close.svg";
+import "./StudentFilter.scss";
+
+// import OpenIcon from "../Icons/OpenIcon";
+// import CloseIcon from "../Icons/CloseIcon";
 // import Tag from "../Tag/Tag";
 // import TagInput from "../TagInput/TagInput";
 // import TagForm from "../TagForm/TagForm";
@@ -21,6 +25,16 @@ export default class StudentFilter extends Component {
       tags: [],
     };
   }
+  //   constructor(props) {
+  //     super(props);
+  //     this.state = {
+  //       on: false,
+  //       showPlusButton: true,
+  //       showMinusButton: false,
+  //       tag: "",
+  //       tags: [],
+  //     };
+  //   }
 
   toggle = () => {
     this.setState({
@@ -67,6 +81,28 @@ export default class StudentFilter extends Component {
     });
   };
 
+  // *new code
+  //Change input states
+  //   handleChange = (event) => {
+  //     this.setState({
+  //       [event.target.name]: event.target.value,
+  //     });
+  //   };
+
+  //   //On press Enter
+  //   keyPress = (e) => {
+  //     if (e.keyCode === 13) {
+  //       this.props.handler(this.state.tag, this.props.student.id);
+
+  //       this.setState((prevState) => ({
+  //         tags: [...prevState.tags, this.state.tag],
+  //       }));
+  //       this.setState({
+  //         tag: "",
+  //       });
+  //     }
+  //   };
+
   render() {
     // console.log(this.props.tags);
     return (
@@ -111,7 +147,11 @@ export default class StudentFilter extends Component {
 
                   <ul>
                     {this.props.tags &&
-                      this.props.tags.map((x) => <li className="tags">{x}</li>)}
+                      this.props.tags.map((x, index) => (
+                        <li key={index} className="tags">
+                          {x}
+                        </li>
+                      ))}
                   </ul>
 
                   <OnEvent enter={(e) => this.addTag(e.target.value)}>
@@ -126,47 +166,17 @@ export default class StudentFilter extends Component {
                   </OnEvent>
                 </div>
               )}
-              {/* {showGrades && (
-                  <div className="students_container-card-para-grades">
-                    {grades.map((grade, index) => {
-                      return (
-                        <div key={index.toString()}>
-                          {`test ${index + 1}:\xa0\xa0\xa0\xa0\xa0\xa0${grade}%`}
-                        </div>
-                      );
-                    })}
-                    {tags &&
-                      tags.map((x) => (
-                        <ul className="tags">
-                          <li>{x}</li>
-                        </ul>
-                      ))}
-                    <TagForm selectedTags={selectedTags} />
-                  </div>
-                )} */}
-
-              {/* <TagForm selectedTags={selectedTags} /> */}
-
-              {/* {showGrades ? (
-                  <CloseIcon
-                    className="close"
-                    setShowGrades={setShowGrades}
-                    showGrades={showGrades}
-                  />
-                ) : (
-                  <OpenIcon
-                    className="open"
-                    setShowGrades={setShowGrades}
-                    showGrades={showGrades}
-                  />
-                )} */}
-              <div className="buttons col-md-6 ">
+              <div className="buttons">
                 {this.state.showPlusButton && (
-                  <button onClick={this.toggle}>+</button>
+                  <button onClick={this.toggle}>
+                    <img alt="open" src={Open} />
+                  </button>
                 )}
 
                 {this.state.showMinusButton && (
-                  <button onClick={this.toggle}>-</button>
+                  <button onClick={this.toggle}>
+                    <img alt="close" src={Close} />
+                  </button>
                 )}
               </div>
             </div>
