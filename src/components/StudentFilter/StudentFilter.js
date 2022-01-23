@@ -116,23 +116,41 @@ export default class StudentFilter extends Component {
             />
           </article>
           <article id="second_half">
-            <h3 className="students_container-card-header">
-              {this.props.firstName} {this.props.lastName}
-            </h3>
-            <div className="students_container-card-para">
-              <p className="students_container-card-para-email">
-                Email: {this.props.email}
-              </p>
-              <p className="students_container-card-para-company">
-                Company: {this.props.company}
-              </p>
-              <p className="students_container-card-para-skill">
-                Skill: {this.props.skill}
-              </p>
-              <p className="students_container-card-para-avg">
-                Average: {this.props.averageGrade}
-              </p>
+            <div className="students_container-flex">
+              <div className="test1">
+                <div className="test2">
+                  <h3 className="students_container-card-header">
+                    {this.props.firstName} {this.props.lastName}
+                  </h3>
+                  <div className="buttons">
+                    {this.state.showPlusButton && (
+                      <button onClick={this.toggle}>
+                        <img alt="open" src={Open} />
+                      </button>
+                    )}
 
+                    {this.state.showMinusButton && (
+                      <button onClick={this.toggle}>
+                        <img alt="close" src={Close} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="students_container-card-para">
+                  <p className="students_container-card-para-email">
+                    Email: {this.props.email}
+                  </p>
+                  <p className="students_container-card-para-company">
+                    Company: {this.props.company}
+                  </p>
+                  <p className="students_container-card-para-skill">
+                    Skill: {this.props.skill}
+                  </p>
+                  <p className="students_container-card-para-avg">
+                    Average: {this.props.averageGrade}
+                  </p>
+                </div>
+              </div>
               {this.state.on && (
                 <div>
                   <ul>
@@ -166,7 +184,7 @@ export default class StudentFilter extends Component {
                   </OnEvent>
                 </div>
               )}
-              <div className="buttons">
+              {/* <div className="buttons">
                 {this.state.showPlusButton && (
                   <button onClick={this.toggle}>
                     <img alt="open" src={Open} />
@@ -178,7 +196,7 @@ export default class StudentFilter extends Component {
                     <img alt="close" src={Close} />
                   </button>
                 )}
-              </div>
+              </div> */}
             </div>
           </article>
         </div>
