@@ -189,12 +189,13 @@ class App extends React.Component {
           </form>
 
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              // addTag(newTag, index);
-              // setNewTag("");
-              // this.clearInput();
-            }}>
+          // onSubmit={(e) => {
+          //   e.preventDefault();
+          //   // addTag(newTag, index);
+          //   // setNewTag("");
+          //   // this.clearInput();
+          // }}
+          >
             <input
               type="text"
               className="app_input"

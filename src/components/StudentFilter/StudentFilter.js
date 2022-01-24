@@ -53,6 +53,12 @@ export default class StudentFilter extends Component {
     });
   };
 
+  updateTags = (tags) => {
+    this.setState({
+      tags,
+    });
+  };
+
   addTag = (tag) => {
     let newTags = [...this.state.tags, tag];
 
@@ -72,7 +78,7 @@ export default class StudentFilter extends Component {
 
     // console.log(result);
 
-    // newTags = newTags.join(" , ");
+    newTags = newTags.join(" , ");
 
     //*send tags to parent component
     this.props.getTags(this.props.id, newTags);
@@ -87,41 +93,23 @@ export default class StudentFilter extends Component {
     this.updateTagValue("");
   };
 
-  updateTags = (tags) => {
-    this.setState({
-      tags,
-    });
-  };
-
-  // *new code
-  //Change input states
-  //   handleChange = (event) => {
+  //   updateTags = (tags) => {
   //     this.setState({
-  //       [event.target.name]: event.target.value,
+  //       tags,
   //     });
   //   };
 
-  //   //   //On press Enter
-  //   keyPress = (e) => {
-  //     if (e.keyCode === 13) {
-  //       this.props.handler(this.state.tag, this.props.student.id);
-
-  //       this.setState((prevState) => ({
-  //         tags: [...prevState.tags, this.state.tag],
-  //       }));
-  //       this.setState({
-  //         tag: "",
-  //       });
-  //     }
-  //   };
-
   render() {
-    // console.log(this.props.tags);
     let showAllTags = this.state.tags ? (
       this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
     ) : (
       <div></div>
     );
+    // let showAllTags = this.props.tags ? (
+    //   this.props.tags.map((tag) => <Tag key={tag} tag={tag} />)
+    // ) : (
+    //   <div></div>
+    // );
 
     return (
       <div className="students">
@@ -188,7 +176,24 @@ export default class StudentFilter extends Component {
                           {x}
                         </li>
                       ))} */}
-                    {this.state.tags ? <div>{showAllTags}</div> : <div></div>}
+                    {/* {this.state.tags &&
+                      this.state.tags.map((tag) => (
+                        <li key={index} className="tags">
+                          {x}
+                        </li>
+                        // <Tag key={tag} tag={tag} />
+                      ))} */}
+                    {/* {this.state.tags ? (
+                      this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
+                    ) : (
+                      <div></div>
+                    )} */}
+
+                    {this.state.tags ? (
+                      <div className="tagsDiv">{showAllTags}</div>
+                    ) : (
+                      <div></div>
+                    )}
                   </ul>
 
                   <OnEvent enter={(e) => this.addTag(e.target.value)}>

@@ -38,3 +38,15 @@
 .closeButton img {
   width: 2.5rem;
 }
+
+.tagsDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.tag {
+  margin-right: 4px;
+  background: lightgray;
+  border-radius: 4px;
+  padding: 6px 10px;
+}

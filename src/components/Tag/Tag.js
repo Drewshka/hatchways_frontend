@@ -15,7 +15,7 @@ class Tag extends Component {
   render() {
     const { tag } = this.props;
 
-    return <div className="tag">{tag}</div>; //end return
+    return <li className="tag">{tag}</li>; //end return
   }
 }
 
