@@ -5,32 +5,26 @@ import StudentFilter from "./components/StudentFilter/StudentFilter";
 // const ReactTags = require("react-tag-autocomplete");
 // import SearchFilter from "./components/SearchFilter/SearchFilter";
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      students: [],
-      key_word: "",
-      tag_key_word: "",
-      studentsWithTags: [],
-      showStudentNames: true,
-      showStudentTags: false,
-    };
-  }
-
   // constructor(props) {
   //   super(props);
   //   this.state = {
   //     students: [],
-  //     tags: [],
   //     key_word: "",
   //     tag_key_word: "",
   //     studentsWithTags: [],
   //     showStudentNames: true,
   //     showStudentTags: false,
-  //     searchName: "",
-  //     searchTag: "",
   //   };
   // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      students: null,
+      searchName: "",
+      searchTag: "",
+      tags: [], //consists of objects(Id, Tag)
+    };
+  }
 
   // Populate Tags state from Student Component
   handler = (tag, id) => {
