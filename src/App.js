@@ -9,9 +9,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       students: [],
+      studentsWithTags: [],
       key_word: "",
       tag_key_word: "",
-      studentsWithTags: [],
       showStudentNames: true,
       showStudentTags: false,
     };
@@ -98,9 +98,12 @@ class App extends React.Component {
 
   searchStudentByTag = (tag_keyWord) => {
     return (x) => {
-      for (let i = 0; i < x.tags.length; i++) {
-        return x.tags[i].includes(tag_keyWord) || !tag_keyWord;
-      }
+      // for (let i = 0; i < x.tags.length; i++) {
+      //   return x.tags[i].includes(tag_keyWord) || !tag_keyWord;
+      // }
+      return x.tags.some((t) => {
+        return t.includes(tag_keyWord);
+      });
     };
   };
 
@@ -140,9 +143,8 @@ class App extends React.Component {
     //     <h3>Loading</h3>
     // )
 
-    console.log(...this.state.students);
-    console.log(this.state.tag_key_word);
-    console.log(...this.state.studentsWithTags);
+    console.log(this.state.students);
+    console.log(this.state.studentsWithTags);
     // console.log(this.filteredStudents());
     // console.log(this.state.tags);
 
