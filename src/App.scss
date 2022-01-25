@@ -1,32 +1,61 @@
 @use "./styles/partials/variables" as *;
 @use "./styles/partials/mixins" as *;
 
-// .app {
-//   &_container-card {
-//     &_header {
-//         @include font("Raleway Regular", 700, 20px, 18px, black);
-//       color: red;
-//     }
-//   }
-// }
+#first_half {
+  margin-right: 2rem;
+}
+
+.app_input {
+  margin: 0 1rem;
+  width: 100%;
+  height: 3rem;
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 20px;
+}
+
+.app_input:focus {
+  outline: none;
+}
 
 .app_container-card {
-  @include flex(center, center, row);
+  padding: 1rem 2rem;
+  @include flex(flex-start, center, row);
+  border-bottom: 1px solid black;
+  position: relative;
 
-  &-avatar {
-    height: 8rem;
-    border: 1px solid black;
-    border-radius: 70px;
-  }
+  .students {
+    .students_container-card {
+      width: 100%;
+      padding: 1rem 2rem;
+      @include flex(flex-start, flex-start, row);
+      //   border-bottom: 1px solid black;
 
-  &-header {
-    @include font("Raleway Bold", 700, 40px, 18px, black);
-  }
+      &-avatar {
+        height: 8rem;
+        border: 1px solid black;
+        border-radius: 70px;
+        margin-top: 2rem;
+      }
 
-  &-email,
-  &-company,
-  &-skill,
-  &-avg {
-    @include font("Raleway Regular", 400, 16px, 16px, black);
+      &-header {
+        @include font("Raleway Bold", 700, 40px, 18px, black);
+      }
+
+      &-para {
+        margin-left: 1rem;
+
+        &-email,
+        &-company,
+        &-skill,
+        &-avg {
+          @include font("Raleway Regular", 400, 16px, 16px, black);
+        }
+      }
+
+      &-grades {
+        list-style-type: none;
+      }
+    }
   }
 }

@@ -1,57 +1,192 @@
 import React from "react";
 import "./App.scss";
 import axios from "axios";
+import StudentFilter from "./components/StudentFilter/StudentFilter";
+
 class App extends React.Component {
-  state = {
-    students: [],
-    DataisLoaded: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      students: [],
+      studentsWithTags: [],
+      keyWord: "",
+      tagKeyWord: "",
+      showStudentNames: true,
+      showStudentTags: false,
+    };
+  }
 
   componentDidMount() {
     axios
       .get("https://api.hatchways.io/assessment/students")
       .then((response) => {
         console.log("Students: ", response);
-        this.setState({ students: response.data.students });
+        this.setState({
+          students: response.data.students,
+        });
       });
   }
 
+  searchByNameHandler = (e) => {
+    e.preventDefault();
+    this.setState({
+      keyWord: e.target.value,
+      showStudentNames: true,
+      showStudentTags: false,
+    });
+  };
+
+  searchByTagHandler = (e) => {
+    e.preventDefault();
+    if (e.target.value.length === 0) {
+      this.setState({
+        tagKeyWord: e.target.value,
+        showStudentNames: true,
+        showStudentTags: false,
+      });
+    } else {
+      this.setState({
+        tagKeyWord: e.target.value,
+        showStudentNames: false,
+        showStudentTags: true,
+      });
+    }
+  };
+
+  searchStudentByName = (keyWord) => {
+    return (name) => {
+      return (
+        name.firstName.toLowerCase().includes(keyWord.toLowerCase()) ||
+        name.lastName.toLowerCase().includes(keyWord.toLowerCase()) ||
+        !keyWord
+      );
+    };
+  };
+
+  searchStudentByTag = (tagKeyWord) => {
+    return (tag) => {
+      return tag.tags.some((t) => {
+        return t.includes(tagKeyWord);
+      });
+    };
+  };
+
+  handleTags = (id, tags) => {
+    //call function that gets student by ID and add tags
+    this.getStudent(id, tags);
+  };
+
+  getStudent = (id, tags) => {
+    //get student with the given ID
+    let student = this.state.students.filter((student) => student.id === id);
+
+    //create tag property and add tag
+    student[0].tags = tags;
+    let newStudentWithTags = [...this.state.studentsWithTags, student[0]];
+
+    //remove duplicates from Array
+    let uniqueStudents = Array.from(new Set(newStudentWithTags));
+
+    this.setState({
+      studentsWithTags: uniqueStudents,
+    });
+  };
+
   render() {
     console.log(this.state.students);
+    console.log(this.state.studentsWithTags);
 
     return (
       <div className="app">
-        <h2 className="app_header">Students</h2>
         <section className="app_container">
-          {this.state.students.map((student) => {
-            function findAverage(array) {
-              let sum = 0;
-              for (let i = 0; i < array.length; i++) {
-                sum += parseInt(array[i]);
-              }
-              let average = sum / array.length;
-              return average;
-            }
+          <form>
+            <input
+              type="text"
+              placeholder="Search by name..."
+              className="app_input"
+              onChange={this.searchByNameHandler}
+              value={this.state.keyWord}
+            />
+          </form>
 
-            const averageGrade = findAverage(student.grades);
+          <form>
+            <input
+              type="text"
+              className="app_input"
+              placeholder="Search by tags..."
+              onChange={this.searchByTagHandler}
+              value={this.state.tagKeyWord}
+            />
+          </form>
 
-            return (
-              <div className="app_container-card" key={student.id}>
-                <article id="first_half">
-                  <img src={student.pic} alt="avatar" className="app_container-card-avatar" />
-                </article>
-                <article id="second_half">
-                  <h3 className="app_container-card-header">
-                    {student.firstName} {student.lastName}
-                  </h3>
-                  <p className="app_container-card-email">Email: {student.email}</p>
-                  <p className="app_container-card-company">Company: {student.company}</p>
-                  <p className="app_container-card-skill">Skill: {student.skill}</p>
-                  <p className="app_container-card-avg">Average: {averageGrade}</p>
-                </article>
-              </div>
-            );
-          })}
+          {this.state.showStudentNames &&
+            this.state.students
+              .filter(this.searchStudentByName(this.state.keyWord))
+              .map((student, i) => {
+                function findAverage(array) {
+                  let sum = 0;
+                  for (let i = 0; i < array.length; i++) {
+                    sum += parseInt(array[i]);
+                  }
+                  let average = sum / array.length;
+                  return average;
+                }
+
+                const averageGrade = findAverage(student.grades);
+
+                return (
+                  <div className="app_container-card" key={i}>
+                    <StudentFilter
+                      key={student.id}
+                      id={student.id}
+                      img={student.pic}
+                      firstName={student.firstName}
+                      lastName={student.lastName}
+                      email={student.email}
+                      company={student.company}
+                      skill={student.skill}
+                      grades={student.grades}
+                      averageGrade={averageGrade}
+                      tags={student.tags}
+                      getTags={this.handleTags}
+                    />
+                  </div>
+                );
+              })}
+
+          {this.state.showStudentTags &&
+            this.state.studentsWithTags
+              .filter(this.searchStudentByTag(this.state.tagKeyWord))
+              .map((student, i) => {
+                function findAverage(array) {
+                  let sum = 0;
+                  for (let i = 0; i < array.length; i++) {
+                    sum += parseInt(array[i]);
+                  }
+                  let average = sum / array.length;
+                  return average;
+                }
+
+                const averageGrade = findAverage(student.grades);
+                return (
+                  <div className="app_container-card" key={i}>
+                    <StudentFilter
+                      key={student.id}
+                      id={student.id}
+                      img={student.pic}
+                      firstName={student.firstName}
+                      lastName={student.lastName}
+                      email={student.email}
+                      company={student.company}
+                      skill={student.skill}
+                      grades={student.grades}
+                      averageGrade={averageGrade}
+                      tags={student.tags}
+                      getTags={this.handleTags}
+                    />
+                  </div>
+                );
+              })}
         </section>
       </div>
     );
