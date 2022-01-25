@@ -1,24 +1,15 @@
-// import React, { useState } from "react";
 import React, { Component } from "react";
 import OnEvent from "react-onevent";
-
 import Open from "../../assets/icons/open.svg";
 import Close from "../../assets/icons/close.svg";
 import "./StudentFilter.scss";
 import Tag from "../Tag/Tag";
 
-// import OpenIcon from "../Icons/OpenIcon";
-// import CloseIcon from "../Icons/CloseIcon";
-// import TagInput from "../TagInput/TagInput";
-// import TagForm from "../TagForm/TagForm";
-
-//   const selectedTags = (tags) => console.log(tags);
-//   const [showGrades, setShowGrades] = useState(false);
 export default class StudentFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      on: false,
+      toggle: false,
       showPlusButton: true,
       showMinusButton: false,
       tagInput: "",
@@ -26,9 +17,9 @@ export default class StudentFilter extends Component {
     };
   }
 
-  toggle = () => {
+  setToggle = () => {
     this.setState({
-      on: !this.state.on,
+      toggle: !this.state.toggle,
       showPlusButton: !this.state.showPlusButton,
       showMinusButton: !this.state.showMinusButton,
     });
@@ -52,14 +43,10 @@ export default class StudentFilter extends Component {
   addTag = (tag) => {
     let newTags = [...this.state.tags, tag];
 
-    // newTags = newTags.join(" , ");
-
     //*send tags to parent component
     this.props.getTags(this.props.id, newTags);
-    // this.props.getTags(this.props.id, result);
 
-    //check if tag already exists
-
+    //*check if tag already exists
     if (!(this.state.tags.indexOf(tag) > -1)) {
       let tags = this.state.tags.concat([tag]);
       this.updateTags(tags);
@@ -99,13 +86,13 @@ export default class StudentFilter extends Component {
                   </h3>
                   <div className="buttons">
                     {this.state.showPlusButton && (
-                      <button onClick={this.toggle} className="openButton">
+                      <button onClick={this.setToggle} className="openButton">
                         <img alt="open" src={Open} />
                       </button>
                     )}
 
                     {this.state.showMinusButton && (
-                      <button onClick={this.toggle} className="closeButton">
+                      <button onClick={this.setToggle} className="closeButton">
                         <img alt="close" src={Close} />
                       </button>
                     )}
@@ -127,7 +114,7 @@ export default class StudentFilter extends Component {
                 </div>
               </div>
 
-              {this.state.on && (
+              {this.state.toggle && (
                 <div>
                   <ul className="gradesList">
                     {this.props.grades.map(function (name, index) {
@@ -138,26 +125,6 @@ export default class StudentFilter extends Component {
                       );
                     })}
                   </ul>
-
-                  {/* <ul className="tagsList">
-                  
-                    {this.props.tags ? (
-                      <div className="tagsDiv">{showAllTags}</div>
-                    ) : (
-                      <div></div>
-                    )}
-                  </ul>
-
-                  <OnEvent enter={(e) => this.addTag(e.target.value)}>
-                    <input
-                      value={this.state.tagInput}
-                      onChange={(e) => {
-                        this.updateTagValue(e.target.value);
-                      }}
-                      type="text"
-                      placeholder="Enter tag..."
-                    />
-                  </OnEvent> */}
                 </div>
               )}
               <ul className="tagsList">

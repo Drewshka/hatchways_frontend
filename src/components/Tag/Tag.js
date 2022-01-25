@@ -3,12 +3,9 @@ class Tag extends Component {
   //ALL STATES
   constructor(props) {
     super(props);
-
     this.state = {
-      //   isExpand: false,
       tag: "",
       tags: [],
-      //   isShow: true,
     };
   }
 

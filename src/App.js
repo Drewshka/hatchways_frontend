@@ -2,42 +2,19 @@ import React from "react";
 import "./App.scss";
 import axios from "axios";
 import StudentFilter from "./components/StudentFilter/StudentFilter";
-// const ReactTags = require("react-tag-autocomplete");
-// import SearchFilter from "./components/SearchFilter/SearchFilter";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       students: [],
       studentsWithTags: [],
-      key_word: "",
-      tag_key_word: "",
+      keyWord: "",
+      tagKeyWord: "",
       showStudentNames: true,
       showStudentTags: false,
     };
   }
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     students: null,
-  //     searchName: "",
-  //     searchTag: "",
-  //     tags: [], //consists of objects(Id, Tag)
-  //   };
-  // }
-
-  // Populate Tags state from Student Component
-  // handler = (tag, id) => {
-  //   this.setState((prevState) => ({
-  //     tags: [...prevState.tags, { id: id, tag: tag }],
-  //   }));
-  // };
-
-  // handleChange = (event) => {
-  //   this.setState({
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
 
   componentDidMount() {
     axios
@@ -46,24 +23,14 @@ class App extends React.Component {
         console.log("Students: ", response);
         this.setState({
           students: response.data.students,
-          // studentSuggestion: response.data.students,
         });
       });
   }
 
-  // //* filter functions for sorting content
-  // filteredStudents = () => {
-  //   return this.state.students.filter((student) => {
-  //     return `${student.firstName} ${student.lastName}`
-  //       .toLowerCase()
-  //       .includes(this.state.filteredSearch.toLowerCase());
-  //   });
-  // };
-
   searchByNameHandler = (e) => {
     e.preventDefault();
     this.setState({
-      key_word: e.target.value,
+      keyWord: e.target.value,
       showStudentNames: true,
       showStudentTags: false,
     });
@@ -73,13 +40,13 @@ class App extends React.Component {
     e.preventDefault();
     if (e.target.value.length === 0) {
       this.setState({
-        tag_key_word: e.target.value,
+        tagKeyWord: e.target.value,
         showStudentNames: true,
         showStudentTags: false,
       });
     } else {
       this.setState({
-        tag_key_word: e.target.value,
+        tagKeyWord: e.target.value,
         showStudentNames: false,
         showStudentTags: true,
       });
@@ -87,42 +54,33 @@ class App extends React.Component {
   };
 
   searchStudentByName = (keyWord) => {
-    return (x) => {
+    return (name) => {
       return (
-        x.firstName.toLowerCase().includes(keyWord.toLowerCase()) ||
-        x.lastName.toLowerCase().includes(keyWord.toLowerCase()) ||
+        name.firstName.toLowerCase().includes(keyWord.toLowerCase()) ||
+        name.lastName.toLowerCase().includes(keyWord.toLowerCase()) ||
         !keyWord
       );
     };
   };
 
-  searchStudentByTag = (tag_keyWord) => {
-    return (x) => {
-      // for (let i = 0; i < x.tags.length; i++) {
-      //   return x.tags[i].includes(tag_keyWord) || !tag_keyWord;
-      // }
-      return x.tags.some((t) => {
-        return t.includes(tag_keyWord);
+  searchStudentByTag = (tagKeyWord) => {
+    return (tag) => {
+      return tag.tags.some((t) => {
+        return t.includes(tagKeyWord);
       });
     };
   };
 
   handleTags = (id, tags) => {
-    //call function that retrieves student by ID and add tags
-    this.retrieveStudent(id, tags);
+    //call function that gets student by ID and add tags
+    this.getStudent(id, tags);
   };
 
-  retrieveStudent = (id, tags) => {
+  getStudent = (id, tags) => {
     //get student with the given ID
     let student = this.state.students.filter((student) => student.id === id);
 
-    //push tag onto array
-
-    // let tagArray = [];
-    // tagArray.push(tags);
-
     //create tag property and add tag
-    // student[0].tags = tagArray;
     student[0].tags = tags;
     let newStudentWithTags = [...this.state.studentsWithTags, student[0]];
 
@@ -135,18 +93,8 @@ class App extends React.Component {
   };
 
   render() {
-    //   let filteredTags = this.state.tags ? (
-    //     this.state.tags.filter(
-    //         tag => tag.tag.startsWith(this.state.searchTag)
-    //     )
-    // ) : (
-    //     <h3>Loading</h3>
-    // )
-
     console.log(this.state.students);
     console.log(this.state.studentsWithTags);
-    // console.log(this.filteredStudents());
-    // console.log(this.state.tags);
 
     return (
       <div className="app">
@@ -156,7 +104,7 @@ class App extends React.Component {
               type="text"
               onChange={this.searchByNameHandler}
               placeholder="Search by name..."
-              value={this.state.key_word}
+              value={this.state.keyWord}
               className="app_input"
             />
           </form>
@@ -167,13 +115,13 @@ class App extends React.Component {
               className="app_input"
               placeholder="Search by tags..."
               onChange={this.searchByTagHandler}
-              value={this.state.tag_key_word}
+              value={this.state.tagKeyWord}
             />
           </form>
 
           {this.state.showStudentNames &&
             this.state.students
-              .filter(this.searchStudentByName(this.state.key_word))
+              .filter(this.searchStudentByName(this.state.keyWord))
               .map((student, i) => {
                 function findAverage(array) {
                   let sum = 0;
@@ -208,7 +156,7 @@ class App extends React.Component {
 
           {this.state.showStudentTags &&
             this.state.studentsWithTags
-              .filter(this.searchStudentByTag(this.state.tag_key_word))
+              .filter(this.searchStudentByTag(this.state.tagKeyWord))
               .map((student, i) => {
                 function findAverage(array) {
                   let sum = 0;
@@ -239,38 +187,6 @@ class App extends React.Component {
                   </div>
                 );
               })}
-
-          {/* {this.filteredStudents().map((student, index) => {
-            function findAverage(array) {
-              let sum = 0;
-              for (let i = 0; i < array.length; i++) {
-                sum += parseInt(array[i]);
-              }
-              let average = sum / array.length;
-              return average;
-            }
-
-            const averageGrade = findAverage(student.grades);
-
-            return (
-              <div className="app_container-card" key={student.id}>
-                <StudentFilter
-                  key={index.toString()}
-                  index={index}
-                  img={student.pic}
-                  firstName={student.firstName}
-                  lastName={student.lastName}
-                  email={student.email}
-                  company={student.company}
-                  skill={student.skill}
-                  grades={student.grades}
-                  averageGrade={averageGrade}
-                  tags={student.tags}
-                  getTags={this.handleTags}
-                />
-              </div>
-            );
-          })} */}
         </section>
       </div>
     );
