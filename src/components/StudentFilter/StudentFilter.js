@@ -139,30 +139,8 @@ export default class StudentFilter extends Component {
                     })}
                   </ul>
 
-                  <ul className="tagsList">
-                    {/* {this.state.tags.length > 0
-                      ? this.state.tags.map((tag, index) => {
-                          return <Tag key={index.toString()} tag={tag} />;
-                        })
-                      : null} */}
-                    {/* {this.props.tags &&
-                      this.props.tags.map((tag, index) => (
-                          <li key={index} className="tags">
-                          <Tag key={tag} tag={tag} />
-                        </li>
-                      ))} */}
-                    {/* {this.state.tags ? (
-                        this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
-                    ) : (
-                        <div></div>
-                    )} */}
-
-                    {/* {this.props.tags &&
-                          this.props.tags.map((x, index) => (
-                            <li key={index} className="tags">
-                              {x}
-                            </li>
-                          ))} */}
+                  {/* <ul className="tagsList">
+                  
                     {this.props.tags ? (
                       <div className="tagsDiv">{showAllTags}</div>
                     ) : (
@@ -179,13 +157,64 @@ export default class StudentFilter extends Component {
                       type="text"
                       placeholder="Enter tag..."
                     />
-                  </OnEvent>
+                  </OnEvent> */}
                 </div>
               )}
+              <ul className="tagsList">
+                {this.props.tags ? (
+                  <div className="tagsDiv">{showAllTags}</div>
+                ) : (
+                  <div></div>
+                )}
+              </ul>
+
+              <OnEvent enter={(e) => this.addTag(e.target.value)}>
+                <input
+                  value={this.state.tagInput}
+                  onChange={(e) => {
+                    this.updateTagValue(e.target.value);
+                  }}
+                  type="text"
+                  placeholder="Add a tag"
+                  className="tagsInput"
+                />
+              </OnEvent>
             </div>
           </article>
         </div>
       </div>
     );
   }
+}
+
+{
+  /* {this.state.tags.length > 0
+                      ? this.state.tags.map((tag, index) => {
+                          return <Tag key={index.toString()} tag={tag} />;
+                        })
+                      : null} */
+}
+{
+  /* {this.props.tags &&
+                      this.props.tags.map((tag, index) => (
+                          <li key={index} className="tags">
+                          <Tag key={tag} tag={tag} />
+                        </li>
+                      ))} */
+}
+{
+  /* {this.state.tags ? (
+                        this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
+                    ) : (
+                        <div></div>
+                    )} */
+}
+
+{
+  /* {this.props.tags &&
+                          this.props.tags.map((x, index) => (
+                            <li key={index} className="tags">
+                              {x}
+                            </li>
+                          ))} */
 }

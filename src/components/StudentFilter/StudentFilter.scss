@@ -27,6 +27,7 @@
 .gradesList,
 .tagsList {
   list-style-type: none;
+  padding-left: 1rem;
 }
 
 .openButton,
@@ -42,6 +43,17 @@
 .tagsDiv {
   display: flex;
   flex-direction: row;
+}
+
+.tagsInput {
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 6px 0;
+  margin-left: 1rem;
+}
+
+.tagsInput:focus-visible {
+  outline: none;
 }
 
 .tag {

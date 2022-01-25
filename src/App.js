@@ -151,25 +151,7 @@ class App extends React.Component {
     return (
       <div className="app">
         <section className="app_container">
-          {/* <SearchFilter filterFunction={this.filteredStudents} type={`name`} /> */}
-          {/* <input
-            className="app_input"
-            label="Filter Students: "
-            placeholder="Search by name"
-            onChange={this.handleSearch}
-          />
-          <input
-            type="text"
-            onChange={this.handleTagSearch}
-            placeholder="Search by tags"
-            value={this.state.filteredTag}
-          /> */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              // addTag(newTag, index);
-              // setNewTag("");
-            }}>
+          <form>
             <input
               type="text"
               onChange={this.searchByNameHandler}
