@@ -16,34 +16,28 @@ class App extends React.Component {
       showStudentTags: false,
     };
   }
-
   // constructor(props) {
   //   super(props);
   //   this.state = {
-  //     students: [],
-  //     tags: [],
-  //     key_word: "",
-  //     tag_key_word: "",
-  //     studentsWithTags: [],
-  //     showStudentNames: true,
-  //     showStudentTags: false,
+  //     students: null,
   //     searchName: "",
   //     searchTag: "",
+  //     tags: [], //consists of objects(Id, Tag)
   //   };
   // }
 
   // Populate Tags state from Student Component
-  handler = (tag, id) => {
-    this.setState((prevState) => ({
-      tags: [...prevState.tags, { id: id, tag: tag }],
-    }));
-  };
+  // handler = (tag, id) => {
+  //   this.setState((prevState) => ({
+  //     tags: [...prevState.tags, { id: id, tag: tag }],
+  //   }));
+  // };
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
+  // handleChange = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
 
   componentDidMount() {
     axios
@@ -77,11 +71,19 @@ class App extends React.Component {
 
   searchByTagHandler = (e) => {
     e.preventDefault();
-    this.setState({
-      tag_key_word: e.target.value,
-      showStudentNames: false,
-      showStudentTags: true,
-    });
+    if (e.target.value.length === 0) {
+      this.setState({
+        tag_key_word: e.target.value,
+        showStudentNames: true,
+        showStudentTags: false,
+      });
+    } else {
+      this.setState({
+        tag_key_word: e.target.value,
+        showStudentNames: false,
+        showStudentTags: true,
+      });
+    }
   };
 
   searchStudentByName = (keyWord) => {
@@ -102,14 +104,6 @@ class App extends React.Component {
     };
   };
 
-  // filteredStudents = () => {
-  //   return this.state.students.filter((student) => {
-  //     return `${student.firstName} ${student.lastName}`
-  //       .toLowerCase()
-  //       .includes(this.state.filteredSearch.toLowerCase());
-  //   });
-  // };
-
   handleTags = (id, tags) => {
     //call function that retrieves student by ID and add tags
     this.retrieveStudent(id, tags);
@@ -120,11 +114,13 @@ class App extends React.Component {
     let student = this.state.students.filter((student) => student.id === id);
 
     //push tag onto array
-    let tagArray = [];
-    tagArray.push(tags);
+
+    // let tagArray = [];
+    // tagArray.push(tags);
 
     //create tag property and add tag
-    student[0].tags = tagArray;
+    // student[0].tags = tagArray;
+    student[0].tags = tags;
     let newStudentWithTags = [...this.state.studentsWithTags, student[0]];
 
     //remove duplicates from Array
@@ -134,13 +130,6 @@ class App extends React.Component {
       studentsWithTags: uniqueStudents,
     });
   };
-
-  // clearInput = () => {
-  //   this.setState({
-  //     tag_key_word: "",
-  //     studentsWithTags: [],
-  //   });
-  // };
 
   render() {
     //   let filteredTags = this.state.tags ? (
@@ -188,14 +177,7 @@ class App extends React.Component {
             />
           </form>
 
-          <form
-          // onSubmit={(e) => {
-          //   e.preventDefault();
-          //   // addTag(newTag, index);
-          //   // setNewTag("");
-          //   // this.clearInput();
-          // }}
-          >
+          <form>
             <input
               type="text"
               className="app_input"

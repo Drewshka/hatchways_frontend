@@ -20,3 +20,12 @@ class Tag extends Component {
 }
 
 export default Tag;
+
+// import React from "react";
+// // import styles from "./Tag.module.css";
+
+// const Tag = ({ tag }) => {
+//   return <div className="tag">{tag}</div>;
+// };
+
+// export default Tag;
