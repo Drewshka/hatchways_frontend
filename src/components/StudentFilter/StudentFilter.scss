@@ -1,10 +1,6 @@
 @use "../../styles/partials/variables" as *;
 @use "../../styles/partials/mixins" as *;
 
-// .students {
-//   position: relative;
-// }
-
 #first_half {
   margin-right: 2rem;
 }
@@ -13,10 +9,6 @@
   display: flex;
   align-items: baseline;
 }
-
-// #second_half {
-//   position: relative;
-// }
 
 .buttons {
   position: absolute;

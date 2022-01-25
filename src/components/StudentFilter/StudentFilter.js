@@ -55,12 +55,6 @@ export default class StudentFilter extends Component {
   };
 
   render() {
-    // let showAllTags = this.state.tags ? (
-    //   this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
-    // ) : (
-    //   <div></div>
-    // );
-
     let showAllTags = this.props.tags ? (
       this.props.tags.map((tag) => <Tag key={tag} tag={tag} />)
     ) : (
@@ -152,36 +146,4 @@ export default class StudentFilter extends Component {
       </div>
     );
   }
-}
-
-{
-  /* {this.state.tags.length > 0
-                      ? this.state.tags.map((tag, index) => {
-                          return <Tag key={index.toString()} tag={tag} />;
-                        })
-                      : null} */
-}
-{
-  /* {this.props.tags &&
-                      this.props.tags.map((tag, index) => (
-                          <li key={index} className="tags">
-                          <Tag key={tag} tag={tag} />
-                        </li>
-                      ))} */
-}
-{
-  /* {this.state.tags ? (
-                        this.state.tags.map((tag) => <Tag key={tag} tag={tag} />)
-                    ) : (
-                        <div></div>
-                    )} */
-}
-
-{
-  /* {this.props.tags &&
-                          this.props.tags.map((x, index) => (
-                            <li key={index} className="tags">
-                              {x}
-                            </li>
-                          ))} */
 }
