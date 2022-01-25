@@ -1,28 +1,27 @@
-import React, { Component } from "react";
-class Tag extends Component {
-  //ALL STATES
-  constructor(props) {
-    super(props);
-    this.state = {
-      tag: "",
-      tags: [],
-    };
-  }
+import React from "react";
 
-  render() {
-    const { tag } = this.props;
-
-    return <li className="tag">{tag}</li>; //end return
-  }
-}
+const Tag = ({ tag }) => {
+  return <li className="tag">{tag}</li>;
+};
 
 export default Tag;
 
-// import React from "react";
-// // import styles from "./Tag.module.css";
+// import React, { Component } from "react";
+// class Tag extends Component {
+//   //ALL STATES
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       tag: "",
+//       tags: [],
+//     };
+//   }
 
-// const Tag = ({ tag }) => {
-//   return <div className="tag">{tag}</div>;
-// };
+//   render() {
+//     const { tag } = this.props;
+
+//     return <li className="tag">{tag}</li>; //end return
+//   }
+// }
 
 // export default Tag;

@@ -102,10 +102,10 @@ class App extends React.Component {
           <form>
             <input
               type="text"
-              onChange={this.searchByNameHandler}
               placeholder="Search by name..."
-              value={this.state.keyWord}
               className="app_input"
+              onChange={this.searchByNameHandler}
+              value={this.state.keyWord}
             />
           </form>
 
